@@ -1,1 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seraphic RTX - Under Development</title>
+    <!-- Modern Framework Integration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Three.js for 3D effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        /* Advanced Minecraft-inspired styles */
+        :root {
+            --primary-border: #373737;
+            --secondary-border: #737373;
+            --accent-color: #8BC34A;
+            --glow-color: rgba(139, 195, 74, 0.6);
+        }
+        
+        body {
+            background: #000;
+            font-family: 'Minecraft', 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            margin: 0;
+            cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDIwLTAzLTI2VDIxOjQxOjM5KzAxOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMC0wMy0yNlQyMTo0NDoyNSswMTowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMC0wMy0yNlQyMTo0NDoyNSswMTowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozNDRkMjQ3My1iOTllLTk2NDItYmRkZC0wNjk5NzM3OTI1M2IiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MzQ0ZDI0NzMtYjk5ZS05NjQyLWJkZGQtMDY5OTczNzkyNTNiIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6MzQ0ZDI0NzMtYjk5ZS05NjQyLWJkZGQtMDY5OTczNzkyNTNiIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDozNDRkMjQ3My1iOTllLTk2NDItYmRkZC0wNjk5NzM3OTI1M2IiIHN0RXZ0OndoZW49IjIwMjAtMDMtMjZUMjE6NDE6MzkrMDE6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE5IChXaW5kb3dzKSIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7s+LVEAAAC90lEQVRYhe2XTUhUURTHf2dmNA0ds5I+sCRtEVFREQS1CReJ0SqoRbQJWgRRtAnaRIsWQRQt3LRoEUTLFkEUtRAiIhPbjO+DCs3QHHVmOk4fd+69Le6b8TnvI0eSoAN/uMyce+753/855917n6OstYRR5sxo8v2wYFEEYokkgUdUgUdUNpsKyxVlqB8YYP09qlYlIl6LUBX4qz6mgPVg1YJhS0Al6PSg0QMVrFoBPIOWqxIPZFzwLQyNQ38S+pMwMAG/MzCeA8vCyAhEmU/BznloiuHaeJz6qEtdzOVYZYxt+2JsXRNj1TLP/XyihM+qBPR9h/MvoCtRKndrfZSbHZXsWB9lS6OirDzawioF9A3ChSdOACDmKY43xrndVkFT9UIESAq4+gZuDMwfubE+yv3dlTTXhJpVo9kJiGfgxEPIWhdzeYqr7ZVc2hYPncYLJkDn4ORj8K0L7m+o5G57JVuXFo1ekAAxHw53B5OzrZWc3hRbOAFAZ7LE/XStrZwDDdGFEwBwZqjU7amLhRZQfA70DEd8q8jkLPHI3NsVVDUiYLriB0xDNBI8/qoE9I4EHY2O4qm5BTRUuGFXJSBRHnSkcpbE9NzCS0vhr0rA/uVBR9+YXxLbURvB86bOQvWXj5yF28lS998xn5OboqFPQoHm1glYGS91N1a7d+GTjZFF08AkfH4XdNxur5z775iCOQ1M4PQr94mbGYMbO8o5GXI5BvIAM+fgvU/g6ofS2A+TlnNbYzRUzB6kpvvyYM8CvDHYcQ8+/HLBz6ZgTc0UO+ujPBrOs+/hBAd7kvz0LT+SkE3mGc9YRtOWVNoyNC7Pb8G3LvC8hYspw8lnGQbHfPZ3JdhcU0ZiXW34PjDjjx9mYEcndI9COmfJWRjLWhJpy688GIYcxRcLJoTH83j64AJeD0HP2tJanfUxeQ+c6XdfFLI5WFwWrD+l0pZXmRlLb6olCNSOTTvoTuIRQUuGaqlFEv4tAVEeUf0BZ5oy1dPJSW8AAAAASUVORK5CYII='), auto;
+        }
 
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c4S8woAAAAZklEQVR4nO3RMQrAIAxA0T9pU1uOXofz/qvYwfkYwgaDMOeDGGZXevctd9nXlSVK5kKQhCiZ2APiZkpeQghBMpKnIIbPAAAAAAAAAAAAAAAAAADgD26VdQW0BZyUpQlsVVON++ypLEk0gw8/do6Z7gAAAABJRU5ErkJggg==');
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 9999;
+            animation: noiseAnimation 0.2s infinite;
+        }
+
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('https://minecraft.net/fonts/Minecraft-Regular.woff') format('woff');
+            font-display: swap;
+        }
+
+        .content-box {
+            background: rgba(0, 0, 0, 0.85);
+            border: 4px solid var(--primary-border);
+            box-shadow: inset 0 0 0 2px var(--secondary-border), 
+                        0 0 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-box:hover {
+            transform: translateZ(10px);
+            box-shadow: inset 0 0 0 2px var(--secondary-border), 
+                        0 0 30px var(--glow-color);
+        }
+
+        .minecraft-btn {
+            background: #555555;
+            border: 3px solid #373737;
+            box-shadow: inset 0 0 0 1px #737373;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .minecraft-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .minecraft-btn:hover {
+            background: #737373;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: inset 0 0 0 1px #737373, 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .minecraft-btn:hover:before {
+            left: 100%;
+        }
+
+        .minecraft-btn:active {
+            transform: translateY(1px);
+        }
+
+        .pixel {
+            width: 12px;
+            height: 12px;
+            background: var(--secondary-border);
+            position: absolute;
+            border: 2px solid var(--primary-border);
+            transition: all 0.3s ease;
+            will-change: transform, opacity;
+        }
+
+        .pixel:hover {
+            transform: scale(1.5) rotate(45deg);
+            background: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        .voxel-element {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* Base animations */
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(15px) rotate(-5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        @keyframes noiseAnimation {
+            0% {background-position: 0% 0%;}
+            100% {background-position: 100% 100%;}
+        }
+
+        .animate-float { animation: float 5s infinite ease-in-out; }
+        .animate-pulse { animation: pulse 3s infinite ease-in-out; }
+        .animate-rotate { animation: rotate 8s infinite linear; }
+        .animate-bounce { animation: bounce 4s infinite ease-in-out; }
+
+        /* Enhanced glow effect */
+        .glow {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            100% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 0 40px var(--glow-color); }
+        }
+
+        .particle {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            position: absolute;
+            will-change: transform;
+        }
+
+        /* Parallax effects */
+        .parallax {
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Loading animation */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-border), var(--accent-color), var(--secondary-border));
+            z-index: 10000;
+            animation: loadingProgress 2s ease-out forwards;
+        }
+
+        @keyframes loadingProgress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* 3D Grid for background */
+        #three-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Page transitions */
+        .page-transition {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Enhanced Responsive Adjustments with fluid typography */
+        @media (max-width: 1200px) {
+            .content-box {
+                padding: clamp(1.2rem, 3vw, 2rem);
+                border-width: 3px;
+            }
+            h1 {
+                font-size: clamp(2.5rem, 5vw, 3.5rem);
+            }
+            p {
+                font-size: clamp(1.1rem, 2vw, 1.3rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-box {
+                padding: clamp(0.8rem, 2vw, 1.2rem);
+                border-width: 2px;
+                backdrop-filter: blur(3px);
+            }
+            h1 {
+                font-size: clamp(1.8rem, 4vw, 2.2rem);
+            }
+            p {
+                font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            }
+            .pixel {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-box {
+                padding: 0.75rem;
+                border-width: 2px;
+            }
+            h1 {
+                font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+                letter-spacing: 1px;
+            }
+            p {
+                font-size: clamp(0.8rem, 1.2vw, 1rem);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+    <!-- Loading indicator -->
+    <div class="loading-bar"></div>
+    
+    <!-- Noise overlay -->
+    <div class="noise-overlay"></div>
+    
+    <!-- 3D background container -->
+    <div id="three-container"></div>
+    
+    <!-- Main Container -->
+    <div class="container-fluid px-4 py-5 text-center page-transition">
+        <!-- Content Section -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <!-- Title Box -->
+                <div class="content-box p-6 mb-4 parallax" data-depth="0.2">
+                    <h1 class="text-4xl md:text-5xl font-bold tracking-wider animate-pulse">
+                        Seraphic RTX
+                    </h1>
+                    <p class="text-xl md:text-2xl mt-3">
+                        Site is Under Development
+                    </p>
+                    
+                    <!-- Progress bar -->
+                    <div class="w-full bg-gray-800 h-4 mt-4 rounded-full overflow-hidden">
+                        <div class="bg-green-500 h-full rounded-full" style="width: 35%; animation: progressPulse 2s infinite;"></div>
+                    </div>
+                    <p class="text-sm mt-1">35% Complete</p>
+                    
+                    <!-- Countdown -->
+                    <div class="mt-4 font-mono" id="countdown">Coming in: 00:00:00:00</div>
+                </div>
+
+                <!-- Steve Message -->
+                <div class="content-box p-4 parallax" data-depth="0.1">
+                    <p class="text-lg md:text-xl">
+                        Built by a Steve who punched a tree one too many times.
+                    </p>
+                    
+                    <!-- Interactive buttons removed as requested -->
+                </div>
+                
+                <!-- Minecraft-style notification -->
+                <div id="notification" class="content-box p-2 mt-4 hidden animate-float">
+                    <p class="text-md">Achievement Unlocked: Found the Secret!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none overflow-hidden" id="particles-container">
+            <div class="pixel animate-float" style="left: 15%; top: 25%;"></div>
+            <div class="pixel animate-float" style="left: 85%; top: 35%; animation-delay: 1s;"></div>
+            <div class="pixel animate-float" style="left: 25%; top: 65%; animation-delay: 2s;"></div>
+            <div class="pixel animate-float" style="left: 75%; top: 85%; animation-delay: 3s;"></div>
+            
+            <!-- 3D voxel elements will be generated by JS -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Advanced Animation Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Page initialization with loading effect
+            setTimeout(() => {
+                document.querySelector('.loading-bar').style.opacity = '0';
+            }, 2000);
+
+            // Set up the countdown timer for 10 days instead of 30
+            const countdownDate = new Date();
+            countdownDate.setDate(countdownDate.getDate() + 10); // 10 days from now
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById("countdown").innerHTML = `Coming in: ${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Calculate progress percentage based on countdown
+                // If 10 days is 0% and 0 days is 100%
+                const totalMilliseconds = 10 * 24 * 60 * 60 * 1000; // 10 days in milliseconds
+                const elapsed = totalMilliseconds - distance;
+                const percentComplete = Math.min(100, Math.max(0, Math.floor((elapsed / totalMilliseconds) * 100)));
+                
+                // Update progress bar width and text
+                document.querySelector('.bg-green-500').style.width = percentComplete + '%';
+                document.querySelector('.text-sm.mt-1').textContent = percentComplete + '% Complete';
+            }
+            
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+
+            // Generate random pixels
+            function spawnPixel() {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                const animations = ['animate-float', 'animate-pulse', 'animate-rotate', 'animate-bounce'];
+                const randAnim = animations[Math.floor(Math.random() * animations.length)];
+                
+                pixel.classList.add(randAnim);
+                if (Math.random() > 0.5) pixel.classList.add('glow');
+                
+                pixel.style.left = Math.random() * 100 + '%';
+                pixel.style.top = Math.random() * 100 + '%';
+                pixel.style.animationDelay = Math.random() * 2 + 's';
+                
+                document.getElementById('particles-container').appendChild(pixel);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    pixel.style.opacity = '0';
+                    setTimeout(() => pixel.remove(), 1000);
+                }, 5000);
+            }
+
+            // Create particles
+            const container = document.querySelector('.position-absolute');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.opacity = Math.random() * 0.5 + 0.3;
+                particle.style.animation = `float ${Math.random() * 8 + 3}s infinite ease-in-out`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(particle);
+            }
+
+            // Add parallax effect
+            document.addEventListener('mousemove', (e) => {
+                const parallaxElements = document.querySelectorAll('.parallax');
+                parallaxElements.forEach(element => {
+                    const depth = element.getAttribute('data-depth') || 0.1;
+                    const moveX = (e.clientX - window.innerWidth / 2) * depth;
+                    const moveY = (e.clientY - window.innerHeight / 2) * depth;
+                    element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                });
+            });
+
+            // Easter egg
+            let clickCount = 0;
+            document.addEventListener('click', () => {
+                clickCount++;
+                if (clickCount === 5) {
+                    document.getElementById('notification').classList.remove('hidden');
+                    setTimeout(() => {
+                        document.getElementById('notification').classList.add('hidden');
+                    }, 3000);
+                }
+            });
+
+            // Setup Three.js scene with night mode by default
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x001122); // Dark blue/black for night
+            
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('three-container').appendChild(renderer.domElement);
+            
+            // Add grid
+            const gridHelper = new THREE.GridHelper(100, 50, 0x444444, 0x222222);
+            scene.add(gridHelper);
+            
+            // Add lighting - dimmer for night mode
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.1); // Reduced intensity
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(0, 10, 10);
+            scene.add(directionalLight);
+            
+            // Add floating cubes
+            const cubes = [];
+            for (let i = 0; i < 20; i++) {
+                const size = Math.random() * 0.5 + 0.3;
+                const geometry = new THREE.BoxGeometry(size, size, size);
+                const material = new THREE.MeshPhongMaterial({
+                    color: Math.random() < 0.5 ? 0x8BC34A : 0x737373,
+                    transparent: true,
+                    opacity: 0.7,
+                    wireframe: Math.random() > 0.7
+                });
+                
+                const cube = new THREE.Mesh(geometry, material);
+                cube.position.set(
+                    Math.random() * 40 - 20,
+                    Math.random() * 10 - 5,
+                    Math.random() * 40 - 20
+                );
+                
+                cube.userData = {
+                    rotationSpeed: {
+                        x: Math.random() * 0.01,
+                        y: Math.random() * 0.01,
+                        z: Math.random() * 0.01
+                    },
+                    floatSpeed: 0.005 + Math.random() * 0.01,
+                    floatHeight: Math.random() * 2,
+                    initialY: cube.position.y,
+                    floatOffset: Math.random() * Math.PI * 2
+                };
+                
+                cubes.push(cube);
+                scene.add(cube);
+            }
+            
+            // Position camera
+            camera.position.z = 15;
+            camera.position.y = 5;
+            camera.lookAt(0, 0, 0);
+            
+            // Animation loop
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                time += 0.01;
+                
+                // Animate cubes
+                cubes.forEach(cube => {
+                    const data = cube.userData;
+                    
+                    // Rotation
+                    cube.rotation.x += data.rotationSpeed.x;
+                    cube.rotation.y += data.rotationSpeed.y;
+                    cube.rotation.z += data.rotationSpeed.z;
+                    
+                    // Float up and down
+                    cube.position.y = data.initialY + Math.sin(time + data.floatOffset) * data.floatHeight;
+                });
+                
+                // Subtle camera movement
+                camera.position.x = Math.sin(time * 0.1) * 2;
+                camera.position.z = 15 + Math.cos(time * 0.1) * 2;
+                camera.lookAt(0, 0, 0);
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // Occasionally spawn pixels for ambient effect
+            setInterval(() => {
+                spawnPixel();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
