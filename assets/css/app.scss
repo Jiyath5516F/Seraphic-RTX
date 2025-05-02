@@ -1,0 +1,47 @@
+:root {
+    /* CSS HEX */
+    --cerise: #F60960ff;
+    --black: #000000ff;
+    --palatinate: #4F1150ff;
+    --aureolin: #EFEF02ff;
+    --razzle-dazzle-rose: #F93BDBff;
+
+    /* CSS HSL */
+    --cerise: hsla(338, 93%, 50%, 1);
+    --black: hsla(0, 0%, 0%, 1);
+    --palatinate: hsla(299, 65%, 19%, 1);
+    --aureolin: hsla(60, 98%, 47%, 1);
+    --razzle-dazzle-rose: hsla(309, 94%, 60%, 1);
+
+    /* SCSS HEX */
+    $cerise: #F60960ff;
+    $black: #000000ff;
+    $palatinate: #4F1150ff;
+    $aureolin: #EFEF02ff;
+    $razzle-dazzle-rose: #F93BDBff;
+
+    /* SCSS HSL */
+    $cerise: hsla(338, 93%, 50%, 1);
+    $black: hsla(0, 0%, 0%, 1);
+    $palatinate: hsla(299, 65%, 19%, 1);
+    $aureolin: hsla(60, 98%, 47%, 1);
+    $razzle-dazzle-rose: hsla(309, 94%, 60%, 1);
+
+    /* SCSS RGB */
+    $cerise: rgba(246, 9, 96, 1);
+    $black: rgba(0, 0, 0, 1);
+    $palatinate: rgba(79, 17, 80, 1);
+    $aureolin: rgba(239, 239, 2, 1);
+    $razzle-dazzle-rose: rgba(249, 59, 219, 1);
+
+    /* SCSS Gradient */
+    $gradient-top: linear-gradient(0deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-right: linear-gradient(90deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-bottom: linear-gradient(180deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-left: linear-gradient(270deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-top-right: linear-gradient(45deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-bottom-right: linear-gradient(135deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-top-left: linear-gradient(225deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-bottom-left: linear-gradient(315deg, #F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+    $gradient-radial: radial-gradient(#F60960ff, #000000ff, #4F1150ff, #EFEF02ff, #F93BDBff);
+}
